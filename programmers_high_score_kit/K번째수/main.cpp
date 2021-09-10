@@ -9,6 +9,7 @@ vector<int> solution(vector<int> array, vector<vector<int> > commands) {
   vector<int> answer;
 
   vector<int> temp;
+  /*
   // commands 순차 적용
   for (vector<vector<int> >::iterator vv_it = commands.begin(); vv_it != commands.end(); ++vv_it) {
     temp.assign(array.begin() + (*vv_it)[0] - 1, array.begin() + (*vv_it)[1]);
@@ -27,6 +28,14 @@ vector<int> solution(vector<int> array, vector<vector<int> > commands) {
     // 해당 위치 값 찾기
     cout << "answer: " << temp[(*vv_it)[2] - 1] << endl;
     answer.push_back(temp[(*vv_it)[2] - 1]);
+  }
+  */
+  // 더 깔끔한 방법
+  int size = commands.size();
+  for (int i = 0; i < size; ++i) {
+    temp = array;
+    sort(temp.begin() + commands[i][0] - 1, temp.begin() + commands[i][1]);
+    answer.push_back(temp[commands[i][0] + commands[i][2] - 2]);
   }
 
   return answer;
