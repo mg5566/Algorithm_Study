@@ -1,19 +1,19 @@
-#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <set>
+#include <cmath>
 
 using namespace std;
 
-bool is_prime(string numbers) {
-  int num = atoi(numbers.c_str());
-  // cout << "atoi : " << num << endl;
-  int root = sqrt(num);
-  int i = 2;
-  while (i <= root) {
-    if (num % i == 0)
+bool is_prime(int numbers) {
+  if (numbers < 2)
+    return (false);
+  int root = sqrt(numbers);
+  for (int i = 2; i <= root; ++i) {
+    if (numbers % i == 0)
       return (false);
-    ++i;
   }
   return (true);
 }
@@ -21,15 +21,27 @@ bool is_prime(string numbers) {
 int solution(string numbers) {
   int answer = 0;
 
-  sort(numbers.begin(), numbers.end());
-  // cout << numbers << endl;
+  vector<int> nums;
 
+  sort(numbers.begin(), numbers.end());
+
+  int size = numbers.size();
   do {
-    // cout << "permutation : " << numbers << endl;
-    if (is_prime(numbers))
-      ++answer;
+    string temp = "";
+    for (int i = 0; i < size; ++i) {
+      temp.push_back(numbers[i]);
+      nums.push_back(stoi(temp));
+    }
   } while (next_permutation(numbers.begin(), numbers.end()));
 
+  // 모든 경우 수를 담은 vector 를 완전탐색하면서 prime 인지 판단한다.
+  sort(nums.begin(), nums.end());
+  nums.erase(unique(nums.begin(), nums.end()), nums.end());
+  size = nums.size();
+  for (int i = 0; i < size; ++i) {
+    if (is_prime(nums[i]))
+      ++answer;
+  }
   return answer;
 }
 
